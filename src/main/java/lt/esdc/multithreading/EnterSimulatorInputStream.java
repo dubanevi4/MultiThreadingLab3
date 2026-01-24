@@ -1,6 +1,5 @@
 package lt.esdc.multithreading;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 public class EnterSimulatorInputStream extends InputStream {
@@ -9,7 +8,7 @@ public class EnterSimulatorInputStream extends InputStream {
     private final byte[] enterBytes = "\n".getBytes();
 
     @Override
-    public int read() throws IOException {
+    public int read() {
         if (firstRead) {
             firstRead = false;
             try {

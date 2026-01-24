@@ -22,23 +22,20 @@ public class Part2 {
 
     public void test() {
         Thread[] threads = new Thread[n];
-        
+
         for (int i = 0; i < n; i++) {
-            threads[i] = new Thread() {
-                @Override
-                public void run() {
-                    for (int j = 0; j < k; j++) {
-                        System.out.println(c1 + " " + c2);
-                        c1++;
-                        try {
-                            Thread.sleep(t);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                        c2++;
+            threads[i] = new Thread(() -> {
+                for (int j = 0; j < k; j++) {
+                    System.out.println(c1 + " " + c2);
+                    c1++;
+                    try {
+                        Thread.sleep(t);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                     }
+                    c2++;
                 }
-            };
+            });
             threads[i].start();
         }
 
@@ -53,25 +50,22 @@ public class Part2 {
 
     public void testSync() {
         Thread[] threads = new Thread[n];
-        
+
         for (int i = 0; i < n; i++) {
-            threads[i] = new Thread() {
-                @Override
-                public void run() {
-                    for (int j = 0; j < k; j++) {
-                        synchronized (Part2.this) {
-                            System.out.println(c1 + " " + c2);
-                            c1++;
-                            try {
-                                Thread.sleep(t);
-                            } catch (InterruptedException e) {
-                                Thread.currentThread().interrupt();
-                            }
-                            c2++;
+            threads[i] = new Thread(() -> {
+                for (int j = 0; j < k; j++) {
+                    synchronized (Part2.this) {
+                        System.out.println(c1 + " " + c2);
+                        c1++;
+                        try {
+                            Thread.sleep(t);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
                         }
+                        c2++;
                     }
                 }
-            };
+            });
             threads[i].start();
         }
 

@@ -9,17 +9,14 @@ public class Part1 {
         try {
             System.setIn(new EnterSimulatorInputStream());
 
-            Thread t = new Thread() {
-                @Override
-                public void run() {
-                    Spam.main(null);
-                }
-            };
+            Thread t = new Thread(() ->
+                    Spam.main(null));
+
             t.start();
 
             t.join();
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+//            Thread.currentThread().interrupt();
         } finally {
             System.setIn(originalIn);
         }

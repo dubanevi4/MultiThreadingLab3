@@ -50,8 +50,10 @@ public class Spam {
                     Thread.sleep(delay);
                 }
             } catch (InterruptedException e) {
+                System.out.println(getName() + " " + e.getMessage());
             }
         }
+
     }
 
     public static void main(String[] args) {

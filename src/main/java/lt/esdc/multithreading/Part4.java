@@ -36,20 +36,27 @@ public class Part4 {
                 public void run() {
                     try {
                         long lineStart = lineNumber * (N + LINE_SEPARATOR.length());
-                        
-                        synchronized (raf) {
-                            raf.seek(lineStart);
-                            
-                            for (int j = 0; j < N; j++) {
-                                raf.write((digit + "").getBytes(StandardCharsets.UTF_8));
-                                try {
-                                    Thread.sleep(1);
-                                } catch (InterruptedException e) {
-                                    Thread.currentThread().interrupt();
-                                }
+
+                        byte digitByte = (byte) ('0' + (digit % 10));
+                        byte[] lineSeparatorBytes = LINE_SEPARATOR.getBytes(StandardCharsets.UTF_8);
+
+                        for (int j = 0; j < N; j++) {
+                            synchronized (raf) {
+                                raf.seek(lineStart + j);
+                                raf.write(digitByte);
                             }
-                            
-                            raf.write(LINE_SEPARATOR.getBytes(StandardCharsets.UTF_8));
+
+                            try {
+                                Thread.sleep(1);
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                                return;
+                            }
+                        }
+
+                        synchronized (raf) {
+                            raf.seek(lineStart + N);
+                            raf.write(lineSeparatorBytes);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
